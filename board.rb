@@ -38,15 +38,27 @@ class Board
 
   end
 
-  attr_reader :current_row
-
   def initialize
     @rows = (1...12).map {|_| Row.new}.to_a
-    @current_row = @rows[0]
+    @current_row_index = 0
+  end
+
+  def current_row
+    @rows[@current_row_index]
   end
 
   def to_s
     @rows.join("\n")
   end
+
+  def next_row?
+    @current_row_index += 1
+    if current_row_index == 12
+      return false
+    else
+      return true
+    end
+  end
+
 
 end
