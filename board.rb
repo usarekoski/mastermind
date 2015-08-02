@@ -5,6 +5,7 @@ class Board
     KEY_PEG_DEFAULT = "\u25CF".colorize(:black)
     KEY_PEG_RED =  "\u25CF".colorize(:red)
     KEY_PEG_WHITE =  "\u25CF".colorize(:white)
+    CODE_COLORS = [:red, :green, :yellow, :blue, :magenta, :white]
     CODE_PEGS = [:red, :green, :yellow, :blue, :magenta, :white]
                   .group_by {|x| x }
                   .map { |key, value| "\u2B24".colorize(key) }
@@ -20,8 +21,9 @@ class Board
       @feedback = [KEY_PEG_RED]*color_and_position << [KEY_PEG_WHITE]*color
     end
 
-    def make_guess(colors)
-      @guess = colors.map {|key| CODE_PEGS[key]}
+    def make_guess(numbers)
+      colors = numbers.map { |n| CODE_COLORS[n] }
+      @guess = colors.map { |key| CODE_PEGS[key] }
     end
 
     def to_s
@@ -30,6 +32,8 @@ class Board
     end
 
   end
+
+  attr_reader :current_row
 
   def initialize
     @rows = (1...12).map {|_| Row.new}.to_a
