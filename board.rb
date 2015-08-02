@@ -14,7 +14,8 @@ class Board
 
     def initialize
       @guess = Array.new(4, CODE_PEG_DEFAULT)
-      @feedback = ARrray.new(4, KEY_PEG_DEFAULT)
+      @feedback = Arrray.new(4, KEY_PEG_DEFAULT)
+      @secret_code = Array.new(4, CODE_PEGS_DEFAULT)
     end
 
     def give_feedback(color_and_position, color)
@@ -31,6 +32,10 @@ class Board
         + "  " + @guess.join(" ")
     end
 
+    def is_correct?
+      @guess == @secret_code
+    end
+
   end
 
   attr_reader :current_row
@@ -43,6 +48,5 @@ class Board
   def to_s
     @rows.join("\n")
   end
-
 
 end
