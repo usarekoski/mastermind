@@ -51,7 +51,7 @@ class Board
   end
 
   def to_s
-    @rows.join("\n")
+    @rows.reverse.map(&:to_s).join("\n")
   end
 
   def next_row?

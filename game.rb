@@ -36,11 +36,14 @@ class Game
     colors = []
     until colors.size > 3
       begin
-        color = Kernel.gets.to_i
+        color = Kernel.gets.chomp.match(/\d/)[0].to_i
+        if color < 1 || color > 6
+          raise "wrong size"
+        end
       rescue
         puts "Not a valid number. Try again."
       else
-        colors << color
+        colors.push(color - 1)
         puts "color ..."
       end
     end
