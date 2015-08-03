@@ -12,6 +12,8 @@ class Game
 
   def welcome
     puts "Welcome playing Mastermind"
+    puts "Press enter to start the game."
+    gets
   end
 
   def set_secret_code
@@ -27,7 +29,13 @@ class Game
       puts @board.to_s
       get_guess
       give_feedback
-      break unless game_over? || @board.next_row?
+      break if game_over? || !@board.next_row?
+    end
+    puts @board.to_s
+    if game_over?
+      puts "You guessed right!"
+    else
+      puts "You did run out of guesses."
     end
   end
 

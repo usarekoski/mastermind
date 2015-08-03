@@ -44,7 +44,7 @@ class Board
   end
 
   def initialize
-    @rows = (1...12).map {|_| Row.new}.to_a
+    @rows = (1..12).map {|_| Row.new}.to_a
     @current_row_index = 0
     @secret_code_numbers = []
     @secret_code = Array.new(4, CODE_PEG_DEFAULT)
@@ -60,7 +60,12 @@ class Board
   end
 
   def next_row?
-    @current_row_index += 1
+    if @current_row_index < 11
+      @current_row_index += 1
+      return true
+    else
+      return false
+    end
   end
 
   def set_secret_code(numbers)
@@ -70,7 +75,7 @@ class Board
   end
 
   def is_correct?
-    current_row.guess_numbers.eql?(@secret_code)
+    return current_row.guess_numbers.eql?(@secret_code_numbers)
   end
 
   def colors_to_s

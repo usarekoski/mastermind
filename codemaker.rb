@@ -3,7 +3,7 @@ class Codemaker
   attr_reader :code
 
   def initialize
-    @code = (0...5).to_a.shuffle.take(4)
+    @code = (0..5).to_a.shuffle.take(4)
   end
 
   def give_feedback(guess_numbers)
@@ -26,7 +26,7 @@ class Codemaker
   private
 
   def feedback_help(numbers, filter)
-    filter.zip(numbers).select { |x| x[0] }.map { |x| x[1] }
+    filter.zip(numbers).select { |x| x[0] == false }.map { |x| x[1] }
   end
 
 end
