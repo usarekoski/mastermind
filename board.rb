@@ -31,7 +31,8 @@ class Board
     end
 
     def to_s
-      @feedback[0, 2].join(" ") + "\n" + @feedback[2, 2].join(" ") \
+      space = " "*20
+      space + @feedback[0, 2].join(" ") + "\n" + space + @feedback[2, 2].join(" ") \
         + "  " + @guess.join(" ")
     end
 
@@ -49,8 +50,8 @@ class Board
   end
 
   def to_s
-    `clear` + LOGO  + "\n" \
-      + @rows.reverse.map(&:to_s).join("\n")
+    `clear` + " "*20 + LOGO  + "\n\n"  \
+      + @rows.reverse.map(&:to_s).join("\n") + "\n\n"
   end
 
   def next_row?

@@ -5,7 +5,7 @@ class AiGuesser
   end
 
   def guess
-    (0..5).shuffle.take(4)
+    (0..5).to_a.shuffle.take(4)
   end
 
 end

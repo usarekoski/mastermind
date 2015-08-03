@@ -15,7 +15,7 @@ module Graphics
 
   def colors_to_s
     colors = CODE_COLORS.map { |k| CODE_PEGS[k] }
-    colors.zip((1..6).to_a).map { |x| x[1].to_s + " => " + x[0] }.join("   ")
+    colors.zip((1..6).to_a).map { |x| x[1].to_s.colorize(:white) + " => ".colorize(:white) + x[0] }.join("   ")
   end
 
 end
