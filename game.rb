@@ -1,11 +1,14 @@
 class Game
+
   require_relative 'board'
   require_relative 'codemaker'
+  require_relative 'guesser'
+  require 'colorize'
 
   def initialize
     @board = Board.new
-    @codemaker = Codemaker.new
     welcome
+    select_role
     set_secret_code
     play
   end
@@ -16,12 +19,27 @@ class Game
     gets
   end
 
-  def set_secret_code
-    @board.set_secret_code(@codemaker.code)
+  def select_role
+    selection = ""
+    puts `clear`
+    puts "Now select if you want to play as a guesser or codemaker."
+    loop do
+      puts "write 1 for guesser or 2 for codemaker"
+      selection = gets.chomp
+      break if selection == "1" || selection == "2"
+      puts "#{selection} is not a valid option."
+    end
+    if selection == "1"
+      @codemaker = AiCodemaker.new
+      @guesser = HumanGuesser.new
+    else
+      @codemaker = HumanCodemaker.new
+      @guesser = AiGuesser.new
+    end
   end
 
-  def create_player
-    @player = Guesser.new
+  def set_secret_code
+    @board.set_secret_code(@codemaker.code)
   end
 
   def play
@@ -40,24 +58,7 @@ class Game
   end
 
   def get_guess
-    colors = []
-    puts "Give your guess:".colorize(:white)
-    puts "Give one number at a time, numbers represent following colors:"
-    puts @board.colors_to_s
-    until colors.size > 3
-      begin
-        print "Color #{colors.size + 1}:"
-        color = Kernel.gets.chomp.match(/\d+/)[0].to_i
-        if color < 1 || color > 6
-          raise "wrong size"
-        end
-      rescue
-        puts "Not a valid number. Try again."
-      else
-        colors.push(color - 1)
-      end
-    end
-    @board.current_row.make_guess(colors)
+    @board.current_row.make_guess(@guesser.guess)
   end
 
   def give_feedback

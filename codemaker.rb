@@ -1,4 +1,4 @@
-class Codemaker
+class AiCodemaker
 
   attr_reader :code
 
@@ -27,6 +27,39 @@ class Codemaker
 
   def feedback_help(numbers, filter)
     filter.zip(numbers).select { |x| x[0] == false }.map { |x| x[1] }
+  end
+
+end
+
+class HumanCodemaker < AiCodemaker
+
+  require_relative 'graphics'
+  include Graphics
+
+  def initialize
+    @code = select_code
+  end
+
+  def select_code
+    colors = []
+    puts `clear`
+    puts "Now select your secret code. It must be 4 colors (can be same colors):".colorize(:white)
+    puts "Give one number at a time, numbers represent following colors:"
+    puts colors_to_s
+    until colors.size > 3
+      begin
+        print "Color #{colors.size + 1}:"
+        color = Kernel.gets.chomp.match(/\d+/)[0].to_i
+        if color < 1 || color > 6
+          raise "wrong size"
+        end
+      rescue
+        puts "Not a valid number. Try again."
+      else
+        colors.push(color - 1)
+      end
+    end
+    colors
   end
 
 end
