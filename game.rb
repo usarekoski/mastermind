@@ -11,7 +11,7 @@ class Game
   end
 
   def welcome
-    puts "Mastermind"
+    puts "Welcome playing Mastermind"
   end
 
   def set_secret_code
@@ -25,7 +25,6 @@ class Game
   def play
     loop do
       puts @board.to_s
-      puts "Give your guess"
       get_guess
       give_feedback
       break unless game_over? || @board.next_row?
@@ -34,9 +33,13 @@ class Game
 
   def get_guess
     colors = []
+    puts "Give your guess:".colorize(:white)
+    puts "Give one number at a time, numbers represent following colors:"
+    puts @board.colors_to_s
     until colors.size > 3
       begin
-        color = Kernel.gets.chomp.match(/\d/)[0].to_i
+        print "Color #{colors.size + 1}:"
+        color = Kernel.gets.chomp.match(/\d+/)[0].to_i
         if color < 1 || color > 6
           raise "wrong size"
         end
@@ -44,7 +47,6 @@ class Game
         puts "Not a valid number. Try again."
       else
         colors.push(color - 1)
-        puts "color ..."
       end
     end
     @board.current_row.make_guess(colors)

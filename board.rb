@@ -2,13 +2,15 @@ class Board
 
   require 'colorize'
 
-  KEY_PEG_DEFAULT = "\u25CF".colorize(:black)
-  KEY_PEG_RED =  "\u25CF".colorize(:red)
-  KEY_PEG_WHITE =  "\u25CF".colorize(:white)
+  LOGO             = "Mastermind".colorize(:white)
+  KEY_PEG_DEFAULT  = "\u25CF".colorize(:black)
+  KEY_PEG_RED      = "\u25CF".colorize(:red)
+  KEY_PEG_WHITE    = "\u25CF".colorize(:white)
+  CODE_PEG_DEFAULT = "\u2B24".colorize(:black)
+
   CODE_COLORS = [:red, :green, :yellow, :blue, :magenta, :white]
   CODE_PEGS =
     CODE_COLORS.map { |color| [color, "\u2B24".colorize(color)] }.to_h
-  CODE_PEG_DEFAULT = "\u2B24".colorize(:black)
 
   class Row
 
@@ -23,7 +25,9 @@ class Board
 
     def give_feedback(color_and_position, color)
       @feedback_numbers = [color_and_position, color]
-      @feedback = [KEY_PEG_RED]*color_and_position << [KEY_PEG_WHITE]*color
+      empty = 4 - (color_and_position + color)
+      @feedback = [KEY_PEG_RED]*color_and_position + [KEY_PEG_WHITE]*color 
+      @feedback += [KEY_PEG_DEFAULT]*empty
     end
 
     def make_guess(numbers)
@@ -33,7 +37,7 @@ class Board
     end
 
     def to_s
-      @feedback[0,1].join("") + "\n" + @feedback[2,3].join \
+      @feedback[0, 2].join(" ") + "\n" + @feedback[2, 2].join(" ") \
         + "  " + @guess.join(" ")
     end
 
@@ -51,7 +55,8 @@ class Board
   end
 
   def to_s
-    @rows.reverse.map(&:to_s).join("\n")
+    `clear` + LOGO  + "\n" \
+      + @rows.reverse.map(&:to_s).join("\n")
   end
 
   def next_row?
@@ -66,6 +71,11 @@ class Board
 
   def is_correct?
     current_row.guess_numbers.eql?(@secret_code)
+  end
+
+  def colors_to_s
+    colors = CODE_COLORS.map { |k| CODE_PEGS[k] }
+    colors.zip((1..6).to_a).map { |x| x[1].to_s + " => " + x[0] }.join("   ")
   end
 
 end
