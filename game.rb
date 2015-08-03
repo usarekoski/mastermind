@@ -24,12 +24,12 @@ class Game
   end
 
   def play
-    until game_over?
+    loop do
       puts @board.to_s
       puts "Give your guess"
       get_guess
       @codemaker.give_feedback
-      break unless @board.next_row?
+      break unless game_over? || @board.next_row?
     end
   end
 
