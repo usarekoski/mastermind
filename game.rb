@@ -2,7 +2,6 @@ class Game
   require_relative 'board'
   require_relative 'codemaker'
 
-
   def initialize
     @board = Board.new
     @codemaker = Codemaker.new
@@ -28,7 +27,7 @@ class Game
       puts @board.to_s
       puts "Give your guess"
       get_guess
-      @codemaker.give_feedback
+      give_feedback
       break unless game_over? || @board.next_row?
     end
   end
@@ -48,8 +47,13 @@ class Game
     @board.current_row.make_guess(colors)
   end
 
+  def give_feedback
+    feedback = @codemaker.give_feedback(@board.current_row.guess_numbers)
+    @board.current_row.give_feedback(*feedback)
+  end
+
   def game_over?
-    @board.current_row.is_correct?
+    @board.is_correct?
   end
 
 end

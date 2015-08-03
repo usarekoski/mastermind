@@ -12,6 +12,8 @@ class Board
 
   class Row
 
+    attr_reader :guess_numbers
+
     def initialize
       @guess_numbers = []
       @guess = Array.new(4, CODE_PEG_DEFAULT)
@@ -33,10 +35,6 @@ class Board
     def to_s
       @feedback[0,1].join("") + "\n" + @feedback[2,3].join \
         + "  " + @guess.join(" ")
-    end
-
-    def guess_is(numbers)
-      @guess_numbers.eql?(numbers)
     end
 
   end
@@ -64,10 +62,10 @@ class Board
     @secret_code_numbers = numbers
     colors = numbers.map { |n| CODE_COLORS[n] }
     @secret_code = colors.map { |key| CODE_PEGS[key] }
-    end
+  end
 
   def is_correct?
-    @current_row.guess_is(@secret_code)
+    current_row.guess_numbers.eql?(@secret_code)
   end
 
 end
