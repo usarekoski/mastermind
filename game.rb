@@ -1,18 +1,22 @@
 class Game
   require_relative 'board'
-  require_relative 'guesser'
   require_relative 'codemaker'
+
 
   def initialize
     @board = Board.new
     @codemaker = Codemaker.new
     welcome
-    create_player
+    set_secret_code
     play
   end
 
   def welcome
     puts "Mastermind"
+  end
+
+  def set_secret_code
+    @board.set_secret_code(@codemaker.code)
   end
 
   def create_player
@@ -48,6 +52,10 @@ class Game
     @board.current_row.is_correct?
   end
 
+end
+
+if $0 == __FILE__
+  Game.new
 end
 
 
