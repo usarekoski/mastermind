@@ -34,7 +34,7 @@ class Game
       @guesser = HumanGuesser.new
     else
       @codemaker = HumanCodemaker.new
-      @guesser = AiGuesser.new
+      @guesser = AiGuesser.new(@board)
     end
   end
 
