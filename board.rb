@@ -1,5 +1,7 @@
 class Board
 
+  require 'colorize'
+
   class Row
 
     KEY_PEG_DEFAULT = "\u25CF".colorize(:black)
@@ -14,8 +16,8 @@ class Board
 
     def initialize
       @guess = Array.new(4, CODE_PEG_DEFAULT)
-      @feedback = Arrray.new(4, KEY_PEG_DEFAULT)
-      @secret_code = Array.new(4, CODE_PEGS_DEFAULT)
+      @feedback = Array.new(4, KEY_PEG_DEFAULT)
+      @secret_code = Array.new(4, CODE_PEG_DEFAULT)
     end
 
     def give_feedback(color_and_position, color)
@@ -53,12 +55,12 @@ class Board
 
   def next_row?
     @current_row_index += 1
-    if current_row_index == 12
-      return false
-    else
-      return true
-    end
   end
 
+  def set_secret_code(numbers)
+    colors = numbers.map { |n| CODE_COLORS[n] }
+    @secret_code = colors.map { |key| CODE_PEGS[key] }
+  end
 
 end
+
